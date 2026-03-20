@@ -67,6 +67,11 @@ async def check_status(case_number: str, lang: str) -> str | None:
                 if status.lower().startswith(prefix.lower()):
                     status = status[len(prefix):].strip()
                     break
+            # Clean HTML: <br /> → newline, strip remaining tags
+            status = re.sub(r"<br\s*/?>", "\n", status)
+            status = re.sub(r"<[^>]+>", "", status)
+            # Collapse multiple whitespace/newlines
+            status = re.sub(r"\n\s*\n", "\n", status).strip()
             return status
         return None
     except ET.ParseError:

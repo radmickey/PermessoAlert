@@ -34,7 +34,7 @@ async def check_all_statuses(context: ContextTypes.DEFAULT_TYPE) -> None:
 
         await update_case_status(case["id"], new_status)
 
-        if old_status and new_status != old_status:
+        if new_status != old_status:
             try:
                 url = build_check_url(case_number, lang)
                 keyboard = InlineKeyboardMarkup([
